@@ -1,25 +1,31 @@
-from filter.filter import FilterBadWords
 import socket
+from filter.filter import FilterBadWords
+from flask import Flask
+
+app = Flask(__name__)
 
 
 class Server:
-    def __init__(self):
+    def __init__(self, host, port):
         self.my_filter = FilterBadWords('../filter/resources/list_of_bad_words.txt')
         sock = socket.socket()
-        sock.bind(('', 9090))
+        sock.bind((host, port))
         sock.listen(1)
         self.conn, addr = sock.accept()
 
     def recive(self):
-        while True:
-            data = self.conn.recv(1024)
-            if not data:
-                break
-            self.conn.send(data.upper())
-            print(self.my_filter.filter(data.decode('utf-8')))
+        data = self.conn.recv(1024)
+        self.conn.send(data.upper())
         self.conn.close()
+        return self.my_filter.filter(data.decode('utf-8'))
 
 
-if __name__ == '__main__':
-    my_server = Server()
-    my_server.recive()
+@app.route("/")
+def start_server():
+    my_server = Server('', 9080)
+    return my_server.recive()
+
+
+if __name__ == "__main__":
+    app.run()
+
