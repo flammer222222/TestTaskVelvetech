@@ -10,8 +10,7 @@ class FilterBadWords:
         return input_string
 
 
-test_string = "rkrrk aslpsap anus slfd sfaf anal analsssd ddd bunny fucker"
 if __name__ == '__main__':
+    test_string = "rkrrk aslpsap anus slfd sfaf anal analsssd ddd bunny fucker"
     my_filter = FilterBadWords('resources/list_of_bad_words.txt')
     print(my_filter.filter(test_string))
-    print(test_string)
