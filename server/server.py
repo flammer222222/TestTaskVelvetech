@@ -4,6 +4,7 @@ import socket
 
 class Server:
     def __init__(self):
+        self.my_filter = FilterBadWords('../filter/resources/list_of_bad_words.txt')
         sock = socket.socket()
         sock.bind(('', 9090))
         sock.listen(1)
@@ -15,8 +16,9 @@ class Server:
             if not data:
                 break
             self.conn.send(data.upper())
-            print(data.decode('utf-8'))
+            print(self.my_filter.filter(data.decode('utf-8')))
         self.conn.close()
+
 
 if __name__ == '__main__':
     my_server = Server()
