@@ -5,10 +5,10 @@ class FilterBadWords:
         # отдельно соберем фразы и слова
         with open(path_bad_words, encoding='utf-8') as file:
             for word in file:
-                if word.find(' ') != -1:
-                    self.__bad_phrases.append(word[:-1])
+                if word.strip().find(' ') != -1:
+                    self.__bad_phrases.append(word[:-1].strip())
                 else:
-                    self.__bad_words.add(word[:-1])
+                    self.__bad_words.add(word[:-1].strip())
 
     def filter(self, input_string):
         #  сначала удалим все фразы из строки
