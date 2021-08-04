@@ -6,9 +6,10 @@ class FilterBadWords:
         with open(path_bad_words, encoding='utf-8') as file:
             for word in file:
                 if word.strip().find(' ') != -1:
-                    self.__bad_phrases.append(word[:-1].strip())
+                    self.__bad_phrases.append(word.strip())
                 else:
-                    self.__bad_words.add(word[:-1].strip())
+                    self.__bad_words.add(word.strip())
+        self.__bad_phrases.sort(key=len, reverse=True)
 
     def filter(self, input_string):
         #  сначала удалим все фразы из строки
@@ -25,6 +26,6 @@ class FilterBadWords:
 
 
 if __name__ == '__main__':
-    test_string = "rkrrk aslpsap anus slfd sfaf anal analsssd ddd bunny fucker"
+    test_string = "rkrrk aslpsap anus slfd sfaf anal analsssd ddd bunny fucker f u c k e r"
     my_filter = FilterBadWords('resources/list_of_bad_words.txt')
     print(my_filter.filter(test_string))

@@ -4,7 +4,7 @@ import tornado.web
 
 
 class MainHandler(tornado.web.RequestHandler):
-    my_filter = FilterBadWords('../filter/resources/list_of_bad_words.txt')
+    my_filter = FilterBadWords('filter/resources/list_of_bad_words.txt')
     filtered_data = ['']
 
     def get(self):
@@ -20,8 +20,15 @@ def make_app():
         (r"/api/filter-bad-words/en-US", MainHandler),
     ])
 
+def my_app():
+    print("Сервер запущен...")
+    app = make_app()
+    try:
+        app.listen(4201)
+    except:
+        print('Ошибка порта, попробуйте указать другой порт и перезапустите приложение')
+        return
+    tornado.ioloop.IOLoop.current().start()
 
 if __name__ == "__main__":
-    app = make_app()
-    app.listen(4201)
-    tornado.ioloop.IOLoop.current().start()
+    my_app()
