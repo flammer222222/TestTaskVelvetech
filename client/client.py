@@ -1,5 +1,5 @@
 import requests
-
+import logging
 
 url = "http://localhost:4201/api/filter-bad-words/en-US"
 while 1:

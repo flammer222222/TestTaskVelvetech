@@ -1,6 +1,10 @@
 from filter.filter import FilterBadWords
 import tornado.ioloop
 import tornado.web
+import logging
+
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -21,14 +25,15 @@ def make_app():
     ])
 
 def my_app():
-    print("Сервер запущен...")
+    logging.info('Сервер запущен...')
     app = make_app()
     try:
         app.listen(4201)
     except:
-        print('Ошибка порта, попробуйте указать другой порт и перезапустите приложение')
+        logging.error('Ошибка порта, попробуйте указать другой порт и перезапустите приложение')
         return
     tornado.ioloop.IOLoop.current().start()
+
 
 if __name__ == "__main__":
     my_app()
