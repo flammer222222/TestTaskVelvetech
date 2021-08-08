@@ -21,8 +21,13 @@ class MainHandler(tornado.web.RequestHandler):
 
     def post(self):
         data_dto = DtoModel(
-            data=self.get_argument('data', 'No data received')
+            data=''
         )
+        if self.request.body_arguments.keys() == data_dto.keys():
+            data_dto['data'] = self.get_argument('data', 'No data received')
+        else:
+            data_dto['data'] = 'Некорректно переданы данные'
+
         if my_filter is not None:
             self.write(my_filter.filter(data_dto['data']))
         else:
