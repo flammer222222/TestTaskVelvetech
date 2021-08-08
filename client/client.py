@@ -20,8 +20,16 @@ while 1:
 	data_dto = DtoModel(
 		data=input_string
 	)
-	request_result = requests.post(url, data_dto)
+	try:
+		request_result = requests.post(url, data_dto)
+		logging.info("\nОтфильтрованный ответ:")
+		logging.info(request_result.text)
 
-	logging.info("\nОтфильтрованный ответ:")
-	logging.info(request_result.text)
-	logging.error("\nНе удалось подключиться по адресу " + url)
+	except (requests.exceptions.InvalidURL, requests.exceptions.ConnectionError) as e:
+		logging.error("Не удалось подключиться по адресу " + url)
+		logging.error("\nНеправильно задан URL")
+
+	except Exception:
+		logging.error('Непредвиденная ошибка')
+
+
