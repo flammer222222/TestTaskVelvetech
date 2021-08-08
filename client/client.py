@@ -1,16 +1,27 @@
 import requests
+from typing import TypedDict
 import logging
 
+
+logging.basicConfig(level=logging.INFO, format='%(message)s')
 url = "http://localhost:4201/api/filter-bad-words/en-US"
+
+
+class DtoModel(TypedDict):
+	data: str
+
+
 while 1:
-	print('\nВведите сообщение("/q" для выхода):')
+	logging.info('\nВведите сообщение("/q" для выхода):')
 	input_string = input()
 	if input_string == '/q':
 		break
-	post_data = {'data': input_string}
-	try:
-		request_result = requests.post(url, post_data)
-		print("\nОтфильтрованный ответ:")
-		print(request_result.text)
-	except:
-		print("\nНе удалось подключиться по адресу ", url)
+
+	data_dto = DtoModel(
+		data=input_string
+	)
+	request_result = requests.post(url, data_dto)
+
+	logging.info("\nОтфильтрованный ответ:")
+	logging.info(request_result.text)
+	logging.error("\nНе удалось подключиться по адресу " + url)

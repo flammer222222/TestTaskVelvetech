@@ -1,28 +1,32 @@
+from typing import TypedDict
+import logging
 from filter.filter import FilterBadWords
 import tornado.ioloop
 import tornado.web
-import logging
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO, format='%(message)s')
+
+
+class DtoModel(TypedDict):
+    data: str
 
 
 class MainHandler(tornado.web.RequestHandler):
     my_filter = FilterBadWords('filter/resources/list_of_bad_words.txt')
-    filtered_data = ['']
-
-    def get(self):
-        self.write(self.filtered_data[0])
 
     def post(self):
-        self.filtered_data[0] = self.my_filter.filter(self.get_argument('data', 'No data received'))
-        self.write(self.filtered_data[0])
+        data_dto = DtoModel(
+            data=self.get_argument('data', 'No data received')
+        )
+        self.write(self.my_filter.filter(data_dto['data']))
 
 
 def make_app():
     return tornado.web.Application([
         (r"/api/filter-bad-words/en-US", MainHandler),
     ])
+
 
 def my_app():
     logging.info('Сервер запущен...')
