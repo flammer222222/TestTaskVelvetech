@@ -4,10 +4,17 @@ from filter.filter import FilterBadWords
 import tornado.ioloop
 import tornado.web
 
-
+# настроим логирование
 logging.basicConfig(level=logging.INFO, format='%(message)s')
+# создадим фильтр для слов
+path_bad_words = 'filter/resources/list_of_bad_words.txt'
+path_good_words = 'filter/resources/list_of_good_words.txt'
+# можно изменять расстояние Левенштейна
+levenshtein_distance = 2
 try:
-    my_filter = FilterBadWords('filter/resources/list_of_bad_words.txt')
+    my_filter = FilterBadWords(path_bad_words, path_good_words, levenshtein_distance)
+except FileNotFoundError:
+    logging.error('Не удалось создать фильтр текста, неправильно указан путь к словарям')
 except Exception:
     my_filter = None
     logging.error('Не удалось создать фильтр текста, проверьте его конфигурацию и перезапустите приложение')
