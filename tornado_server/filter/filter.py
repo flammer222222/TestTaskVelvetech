@@ -20,7 +20,7 @@ class FilterBadWords:
         self.__levenshtein_distance = levenshtein_distance
         # создадим список хороших слов
         with open(path_good_words, encoding='utf-8') as file:
-            self.__good_words = [word.strip() for word in file]
+            self.__good_words = {word.strip() for word in file}
 
         # отдельно соберем плохие фразы и слова
         with open(path_bad_words, encoding='utf-8') as file:
