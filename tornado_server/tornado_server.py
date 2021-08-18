@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 path_bad_words = 'filter/resources/list_of_bad_words.txt'
 path_good_words = 'filter/resources/list_of_good_words.txt'
 # можно изменять расстояние Левенштейна
-levenshtein_distance = 2
+levenshtein_distance = 1
 try:
     my_filter = FilterBadWords(path_bad_words, path_good_words, levenshtein_distance)
 except FileNotFoundError:
